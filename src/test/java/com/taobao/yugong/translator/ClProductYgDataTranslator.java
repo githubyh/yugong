@@ -1,16 +1,10 @@
 package com.taobao.yugong.translator;
 
-import com.taobao.yugong.common.db.meta.ColumnMeta;
 import com.taobao.yugong.common.db.meta.ColumnValue;
 import com.taobao.yugong.common.model.record.IncrementOpType;
 import com.taobao.yugong.common.model.record.IncrementRecord;
 import com.taobao.yugong.common.model.record.Record;
-import com.taobao.yugong.translator.AbstractDataTranslator;
-import com.taobao.yugong.translator.DataTranslator;
 import org.apache.commons.lang.ObjectUtils;
-
-import java.sql.Types;
-import java.util.Date;
 
 /**
  * 一个迁移的例子，涵盖一些基本转换操作
@@ -56,14 +50,13 @@ import java.util.Date;
  * );
  * </pre>
  *
- * @author jianghang 2013-10-10 下午3:28:33
  */
 public class ClProductYgDataTranslator extends AbstractDataTranslator implements DataTranslator {
 
     public boolean translator(Record record) {
-        // 1. schema/table名不同
-//         record.setSchemaName("produser");
-//        record.setTableName("product234");
+        // 1. schema/table名不同 注意大小写
+         record.setSchemaName("product");
+        record.setTableName("cl_product_yg");
 
         if (record instanceof IncrementRecord) {
             if (IncrementOpType.D == ((IncrementRecord) record).getOpType()) {
@@ -91,19 +84,19 @@ public class ClProductYgDataTranslator extends AbstractDataTranslator implements
 //        amountColumn.getColumn().setType(Types.VARCHAR);
 //        amountColumn.setValue(ObjectUtils.toString(amountColumn.getValue()));
 
-        ColumnValue gitNameColumn = record.getColumnByName("IS_GIFT");
-        ColumnValue f2Column = record.getColumnByName("FIELD2");
+//        ColumnValue gitNameColumn = record.getColumnByName("IS_GIFT");
+//        ColumnValue f2Column = record.getColumnByName("FIELD2");
         // 5. 源库多一个字段
         record.getColumns().remove(aliasNameColumn);
-        record.getColumns().remove(gitNameColumn);
-        record.getColumns().remove(f2Column);
+//        record.getColumns().remove(gitNameColumn);
+//        record.getColumns().remove(f2Column);
 //        record.getColumns().remove(amountColumn);
 
 
         // 6. 目标库多了一个字段
-        ColumnMeta gmtMoveMeta = new ColumnMeta("gmt_move", Types.TIMESTAMP);
-        ColumnValue gmtMoveColumn = new ColumnValue(gmtMoveMeta, new Date());
-        record.addColumn(gmtMoveColumn);
+//        ColumnMeta gmtMoveMeta = new ColumnMeta("gmt_move", Types.TIMESTAMP);
+//        ColumnValue gmtMoveColumn = new ColumnValue(gmtMoveMeta, new Date());
+//        record.addColumn(gmtMoveColumn);
 
 
         // ColumnValue text_c = record.getColumnByName("text_c");
